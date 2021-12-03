@@ -1,0 +1,19 @@
+<script type="text/javascript">
+    function categoryClick(catID) {
+        console.log(catID);
+        $(location).attr("href",'/home?category='+catID)
+    }
+    function deleteCategory(catID) {
+        console.log(catID);
+        $.ajax({
+            url: '/home' + '?' + $.param({"id": catID}),
+            type: 'DELETE',
+            success: function(data) {alert("category deleted");  $(location).attr("href",'/home')},
+            error: function(data) {alert("Delete failed")}
+        });
+    }
+    function editCategory(catID) {
+        console.log(catID);
+        $(location).attr("href",`/home/edit?id=${catID}`);
+    }
+</script>
