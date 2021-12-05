@@ -14,9 +14,13 @@ app.set("view engine", ".hbs");
 app.set("views", "./views");
 
 app.use(cookieParser());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
+
+// app.use('/account', require('./controllers/accountController.test'));
+// app.use('/transaction', require('./controllers/transactionRecordController.test'));
 
 app.get("/", (req, res) => {
   res.render("home", {
