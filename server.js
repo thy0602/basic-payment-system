@@ -19,8 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-// app.use('/account', require('./controllers/accountController.test'));
-// app.use('/transaction', require('./controllers/transactionRecordController.test'));
+// app.use('/account', require('./controllers/accountController'));
+// app.use('/transaction', require('./controllers/transactionRecordController'));
 
 app.get("/", (req, res) => {
   res.render("home", {

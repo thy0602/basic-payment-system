@@ -21,9 +21,9 @@ exports.getAll = async tableName => {
     }
 };
 
-exports.getAllOrderByField = async (tableName, fieldname) => {
+exports.getAllOrderByField = async (tableName, fieldname, optionSort = "ASC") => {
     const table = new pgp.helpers.TableName({ table: tableName, schema: schema});
-    const queryStr = pgp.as.format(`SELECT * FROM $1 ORDER BY "${fieldname}" DESC`, table);
+    const queryStr = pgp.as.format(`SELECT * FROM $1 ORDER BY "${fieldname}" ${optionSort}`, table);
 
     try {
         const res = await db.any(queryStr);
@@ -84,7 +84,7 @@ exports.delete = async (tableName, fieldname, value) => {
 
     try {
         const res = await db.any(queryStr);
-        return "Deleted";
+        return true;
     } catch(e) {
         console.log("Error db/delete", e);
     }

@@ -3,7 +3,7 @@ const tableName = "transaction_record";
 const PKFieldName = "id";
 
 exports.getAllSortedByTime = async () => {
-    const res = await db.getAllOrderByField(tableName, "time");
+    const res = await db.getAllOrderByField(tableName, "time", "DESC");
     return res;
 }
 
