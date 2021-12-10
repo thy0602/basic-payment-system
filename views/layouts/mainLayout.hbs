@@ -13,16 +13,12 @@
     ></script>
   </head>
   <body>
-    <div class="container">
-      <div class="row py-2">
-        <div class="col-md">{{> (navP)}}</div>
-      </div>
-      <div class="row py-2">
-        <div class="mx-auto">{{{body}}}</div>
-      </div>
-      <div class="row py-2">
-        <div class="mx-auto">{{> (footerP)}}</div>
-      </div>
+    <div class="container-scroller">
+      {{> (navP)}}
+      
+      {{{body}}}
+      
+      {{> (footerP)}}
     </div>
   </body>
 
