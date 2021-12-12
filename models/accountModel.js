@@ -1,6 +1,6 @@
 const db = require("../db/db");
 const tableName = "account";
-const PKFieldName = "username";
+const PKFieldName = "username", pwdFieldName = "password", balFieldName = "balance";
 
 exports.getAll = async () => {
     const res = await db.getAll(tableName);
@@ -9,7 +9,7 @@ exports.getAll = async () => {
 
 exports.getByUsername = async (username) => {
     const res = await db.getByAField(tableName, PKFieldName, username);
-    return res;
+    return res[0];
 }
 
 exports.create = async (entity) => {
@@ -17,8 +17,8 @@ exports.create = async (entity) => {
     return res;
 }
 
-exports.update = async (PKvalue, entity) => {
-    const res = await db.update(tableName, PKFieldName, PKvalue, entity);
+exports.updateBalance = async (PKvalue, entity) => {
+    const res = await db.update(tableName, PKFieldName, PKvalue, entity, [balFieldName]);
     return res;
 }
 

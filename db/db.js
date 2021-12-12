@@ -63,11 +63,12 @@ exports.create = async (tableName, entity) => {
 };
 
 // update a record in a table fileter by a fieldname
-exports.update = async (tableName, fieldname, filterValue, entity) => {
+exports.update = async (tableName, fieldname, filterValue, entity,columns) => {
     const table = new pgp.helpers.TableName({ table: tableName, schema: schema});
-    const condition = pgp.as.format(` WHERE "${fieldname}"= '${filterValue}'`);
+    const condition = pgp.as.format(` WHERE "${fieldname}"='${filterValue}'`);
 
-    const queryStr = pgp.helpers.update(entity, null, table) + condition + ' RETURNING *';
+    const queryStr = pgp.helpers.update(entity, columns, table) + condition + ' RETURNING *';
+    console.log(queryStr);
 
     try {
         // one: trả về 1 kết quả
