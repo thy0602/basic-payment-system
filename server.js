@@ -21,6 +21,7 @@ app.use(express.static("public"));
 
 // app.use('/account', require('./controllers/accountController'));
 // app.use('/transaction', require('./controllers/transactionRecordController'));
+app.use('/login', require('./controllers/LoginController'));
 
 app.get("/", (req, res) => {
   res.render("home", {
