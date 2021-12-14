@@ -26,7 +26,6 @@
         <form class='inputtag' action="crpassword" method="post"
             oninput='confirm_password.setCustomValidity(create_password.value != confirm_password.value ? "Passcode không trùng khớp." : "")'>
             <input class='input' type="id" name='id' value="{{id}}" style="display: none;">
-            <input class='input' type="email" name='email' value="{{email}}" style="display: none;">
             <div>Passcode</div>
             <input class='input' type="password" name='create_password' required>
             <div class="line_bottom_id"></div>
