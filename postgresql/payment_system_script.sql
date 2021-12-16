@@ -50,12 +50,11 @@ CREATE TABLE "transaction_record" (
 -----------------------------------
 -- Table admin
 -- password: 123
--- pwdHashedLen: 64
--- sha256
+-- bcrypt, saltRound=10
 -----------------------------------
 BEGIN;
 INSERT INTO "admin" ("username", "balance", "password")
-VALUES ('admin', 1000000, 'bc287ed886f637ca1750110fd33a710b1b89189b024a0ecd4f247b5351fcaaf217db6aeaa61');
+VALUES ('admin', 1000000, '$2b$10$VDqC/tAM2BZ/GIX2CuDtPOTptGgEZjZ9YI.IL2igb0qOK0VyWNHUS');
 COMMIT;
 
 -----------------------------------
@@ -66,19 +65,19 @@ COMMIT;
 -----------------------------------
 BEGIN;
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('thin', 2000000, '63b32eb8a8c7576da799de83b6faefca5e3faef851a752f2789f0420d768d46817db6afe291', '0121234343');
+VALUES ('thin', 2000000, '$2b$10$UU/.rQwJRux4HLMqDue37OeY1S.BByJb7l3kI.noOeQ.PLu3v.DK6', '0121234343');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('thy', 2400000, 'cb290d9ad56dd9d49b4718e97be42389e735099a2c7f15baa88e7ffbc210a06217db6b0835d', '0112358111');
+VALUES ('thy', 2400000, '$2b$10$XXFLhavUekaG8AgYlPMA..ZuLZ3rmx/15lNC/oDiCTXLAZMXfct4m', '0112358111');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('nhan', 2500000, '833fc3d51cc90502f6e954f7801f9d441e1a0ec1b0c48a993aa5611b4fb3c25117db6b5563b', '0901234567');
+VALUES ('nhan', 2500000, '$2b$10$xHVqAckOGbDP8kuOtSt3Pu7iHO7xDSKRWWfIyhsDT2M4YuOXXcWGm', '0901234567');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('duy', 3100000, 'c349891dd5629a5a42facb063ce1ec68cfcd49baeeececd8d0ca3d6277d2d45a17db6b12f0b', '0913572468');
+VALUES ('duy', 3100000, '$2b$10$Ct3W5S5H.9uUk2SBava.yOBYWQLRb0eg4K2gedKPfOMV3C6h96htq', '0913572468');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('trung', 3500000, '3645f4fc7b113cdad6c53837e63996e1c0a59f4f2a777ad4d50c40472646a6a417db6b59916', '0924681357');
+VALUES ('trung', 3500000, '$2b$10$QigU8ZBUC5aKi318boewyuLabgQYdIo.k6I2FHTsgkQo8zFQJVeFK', '0924681357');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('viet', 4900000, '91b851c7b058aa013c7c8584028bd8c636610e715eb984a6e3bf5deff6d1c14017db6b5c578', '0900000001');
+VALUES ('viet', 4900000, '$2b$10$tIqC8/3hR/gX/Lflb5W8I.1BEkowAa6aYtL7cQpSjJk3yM4MSMBE2', '0900000001');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('nam', 4500000, 'b8a659e3b678aa9b14e769bb7437975c5db37b5db0820b18a267d583d4054fb117db6b5f9ef', '0901111111');
+VALUES ('nam', 4500000, '$2b$10$BlNygHawXHfvkl2cAOk8d.IKdpBSL34kpMC7YjF8h9zqYnNFtg.Bq', '0901111111');
 COMMIT;
 
 -----------------------------------
