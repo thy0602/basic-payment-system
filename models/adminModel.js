@@ -7,7 +7,4 @@ exports.getAll = async () => {
     return res[0];
 }
 
-exports.updateBalance = async (PKvalue, entity) => {
-    const res = await db.update(tableName, PKFieldName, PKvalue, entity, [balFieldName]);
-    return res;
-}
+
