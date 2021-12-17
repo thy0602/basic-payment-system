@@ -1,8 +1,10 @@
-// const { session } = require('passport');            //temp
-const accountModel = require('../models/accountModel');   //temp
+const accountModel = require('../models/accountModel');
+const adminModel = require('../models/adminModel');
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const salt = 10;
+const passport = require('passport');
+const { redirect } = require('express/lib/response');
 
 router.post('/id', async (req, res) => {
     let id = req.body.id;
@@ -15,46 +17,50 @@ router.post('/id', async (req, res) => {
             return res.redirect('/login/crpassword?id=' + id);
         }
         return res.redirect('/login/password?id=' + id);
-    } else {
-        //nếu không có user
-        res.render('login_views/login_id', {
-            layout: false,
-            msg: () => 'login_partials/msg_id',
-            color: '#ff835d',
-            message: 'Account does not exist!'
-        });
-        return;
     }
+    //nếu không có user
+    //trường hợp là admin
+    const admin = await adminModel.getByUsername(req.body.id);
+    if (admin.length > 0) {
+        return res.redirect('/login/password?id=' + id);
+    }
+    return res.render('login_views/login_id', {
+        layout: false,
+        msg: () => 'login_partials/msg_id',
+        color: '#ff835d',
+        message: 'Account does not exist!'
+    });
 });
 
-router.post('/password', async (req, res) => {
-    //kiểm tra password
-    const user = await accountModel.getByUsername(req.body.id);
-    const check = await bcrypt.compare(req.body.password, user[0].password)
-    //nếu đúng
-    if (check) {
-        res.redirect('/');
-        return;
-    } else {
-        res.render('login_views/login_pw', {
-            layout: false,
-            id: req.body.id,
-            msg: () => 'login_partials/msg_password',
-            color: '#f3d97a',
-            message: 'Passcode incorrect !'
-        });
-        return;
-    }
-});
+router.post('/password', async (req, res, next) => {
 
-router.post('/email', (req, res) => {
-    //maybe kiểm tra email tồn tại, tạm thời thành công
-    res.render('login_views/login_createpw', {
-        email: req.body.email,
-        id: req.body.id,
-        layout: false
-    })
-    return;
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return res.send("error001");
+        }
+        if (!user) {
+            return res.render('login_views/login_pw', {
+                layout: false,
+                id: req.body.id,
+                msg: () => 'login_partials/msg_password',
+                color: '#f3d97a',
+                message: 'Passcode incorrect !'
+            });
+        }
+        req.logIn(user, function (err) {
+            if (err) {
+                return res.render('login_views/login_pw', {
+                    layout: false,
+                    id: req.body.id,
+                    msg: () => 'login_partials/msg_password',
+                    color: '#f3d97a',
+                    message: err
+                });
+            }
+            console.log('login successful');
+            return res.redirect('/');
+        })
+    })(req, res, next);
 });
 
 router.post('/crpassword', async (req, res) => {
@@ -85,6 +91,8 @@ router.get('/password', (req, res) => {
 });
 
 router.get('/id', (req, res) => {
+    if (req.user)
+        return res.redirect('/');
     if (req.query.status == 'true') {
         return res.render('login_views/login_id', {
             layout: false,

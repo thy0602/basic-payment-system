@@ -24,6 +24,8 @@
     "express": "^4.17.1",
     "express-handlebars": "^6.0.2",
     "express-session": "^1.17.2",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
     "pg-promise": "^10.11.1",
     "sha.js": "^2.4.11"
   },
