@@ -31,6 +31,15 @@ app.get("/", (req, res) => {
     title: "Home"
   });
 });
+app.get("/topup", (req, res) => {
+  res.render("topup", {
+    cssP: () => "css",
+    scriptP: () => "scripts",
+    navP: () => "nav",
+    footerP: () => "footer",
+    title: "Top Up"
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on localhost:${port}`);
