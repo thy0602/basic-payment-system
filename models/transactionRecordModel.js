@@ -1,9 +1,16 @@
 const db = require("../db/db");
 const tableName = "transaction_record";
-const PKFieldName = "id";
+const tableFields = {
+    id: 'transaction_id',   // Primary Key
+    amount: 'amount',
+    created: 'created_at',
+    username: 'username',
+    type: 'type'
+}
+
 
 exports.getAllSortedByTime = async () => {
-    const res = await db.getAllOrderByField(tableName, "time", "DESC");
+    const res = await db.getAllOrderByField(tableName, tableFields.created, "DESC");
     return res;
 }
 

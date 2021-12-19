@@ -19803,13 +19803,13 @@ div.tagsinput span.tag a {
 
 .main-panel {
   transition: width 0.25s ease, margin 0.25s ease;
-  width: calc(100% - 235px);
+  width: calc(100% - 240px);
   min-height: calc(100vh - 60px);
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column;
   flex-direction: column;
-  margin-left: 8vw;
+  margin-left: 120px;
 }
 
 @media (max-width: 991px) {
@@ -21959,12 +21959,15 @@ div.tagsinput span.tag a {
 #btn-top-up{
   border: 3px solid #4B49AC;
   box-sizing: border-box;
-  border-radius: 29px;
+  border-radius: 15px;
   color: #4747A1;
   font-weight:bold;
   padding: 12px 16px;
   font-size: 16px;
   cursor: pointer;
+  margin-bottom: 45px;
+  width: 30%;
+  margin-left: 35%;
 }
 #btn-new-user{
   background-color: #4747A1;
@@ -21996,11 +21999,8 @@ div.tagsinput span.tag a {
   line-height: 20px;
 }
 
-.nav-link-btn:hover{
-  font-size: 18px;
-}
-.active-btn:hover{
-  font-size: 20px;
+.non-active-btn:hover{
+  background-color: #F5F5F5;
 }
 
 @media (max-width: 991px) {

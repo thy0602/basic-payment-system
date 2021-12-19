@@ -1,6 +1,11 @@
 const db = require("../db/db");
 const tableName = "account";
-const PKFieldName = "username";
+const tableFields = {
+    username: 'username',   // Primary Key
+    balance: 'balance',
+    password: 'password',
+    phone: 'phone'
+}
 
 exports.getAll = async () => {
     const res = await db.getAll(tableName);

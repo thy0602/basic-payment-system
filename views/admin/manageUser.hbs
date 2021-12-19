@@ -1,0 +1,79 @@
+<div class="container-fluid page-body-wrapper">
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-md-12 grid-margin">
+                    <div class="row">
+                        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                            <h3 class="font-weight-bold">Welcome back, Trung</h3>
+                            <h6 class="font-weight-normal mb-0">All systems are running smoothly! You have <span
+                                    class="text-primary">3 unread alerts!</span></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Add User</h4>
+                            <form class="form-inline">
+                                <label class="sr-only" for="inlineFormInputName2">Name</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2"
+                                    placeholder="Phone number..."
+                                    style="margin: 45px 45px; width: calc(100% - 90px); border: 1px solid #4B49AC">
+                            </form>
+                            <button class="btn" id="btn-top-up" type="submit"> ADD</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Number of users</h4>
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-title mb-0">User Account</p>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Phone Number</th>
+                                            <th>Balance</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each users}}
+                                            <tr>
+                                                <td>{{this.username}}</td>
+                                                <td class="font-weight-bold">{{this.phone}}</td>
+                                                <td>{{this.balance}}</td>
+                                                <td class="font-weight-medium">
+                                                    <div class="badge badge-danger"><i class="icon-trash mx-2"></i></div>
+                                                </td>
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- content-wrapper ends -->
+    </div>
+    <!-- main-panel ends -->
+</div>

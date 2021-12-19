@@ -7,6 +7,9 @@ const app = express();
 const hbs = exphbs.create({
   defaultLayout: "mainLayout",
   extname: "hbs",
+  helpers: {
+    sum: (a, b) => a + b
+  }
 });
 
 app.engine(".hbs", hbs.engine);
@@ -24,9 +27,10 @@ require('./middlewares/session')(app);
 //passport
 require('./middlewares/passport')(app);
 
-// app.use('/account', require('./controllers/accountController'));
-// app.use('/transaction', require('./controllers/transactionRecordController'));
 app.use('/login', require('./controllers/LoginController'));
+app.use('/account', require('./controllers/accountController'));
+app.use('/admin', require('./controllers/adminController'));
+app.use('/transaction', require('./controllers/transactionRecordController'));
 
 app.get("/", (req, res) => {
   res.render("home", {
@@ -34,16 +38,29 @@ app.get("/", (req, res) => {
     scriptP: () => "scripts",
     navP: () => "nav",
     footerP: () => "footer",
-    title: "Home"
+    title: "Home",
+    isHome: 1
   });
 });
-app.get("/topup", (req, res) => {
-  res.render("topup", {
+
+app.get("/user_home", (req, res) => {
+  res.render("user_home", {
     cssP: () => "css",
     scriptP: () => "scripts",
     navP: () => "nav",
     footerP: () => "footer",
-    title: "Top Up"
+    title: "Home",
+  });
+});
+
+app.get("/user_list", (req, res) => {
+  res.render("user_list", {
+    cssP: () => "css",
+    scriptP: () => "scripts",
+    navP: () => "nav",
+    footerP: () => "footer",
+    title: "User List",
+    isUserList: 1
   });
 });
 
