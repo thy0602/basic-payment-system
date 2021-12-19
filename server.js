@@ -28,16 +28,27 @@ app.get("/", (req, res) => {
     scriptP: () => "scripts",
     navP: () => "nav",
     footerP: () => "footer",
-    title: "Home"
+    title: "Home",
+    isHome: 1
   });
 });
-app.get("/topup", (req, res) => {
-  res.render("topup", {
+app.get("/user_home", (req, res) => {
+  res.render("user_home", {
     cssP: () => "css",
     scriptP: () => "scripts",
     navP: () => "nav",
     footerP: () => "footer",
-    title: "Top Up"
+    title: "Home",
+  });
+});
+app.get("/user_list", (req, res) => {
+  res.render("user_list", {
+    cssP: () => "css",
+    scriptP: () => "scripts",
+    navP: () => "nav",
+    footerP: () => "footer",
+    title: "User List",
+    isUserList: 1
   });
 });
 
