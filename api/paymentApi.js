@@ -2,59 +2,59 @@ const express = require("express");
 const router = express.Router();
 
 const accountModel = require("../models/accountModel");
-const adminModel = require("../models/adminModel");
+const TransactionManager = require("../TransactionManager/TransactionManager");
 const transactionRecordModel = require("../models/transactionRecordModel");
 
-const adminUsername = "admin1";
+router.use(function (req, res, next) {
+  if (req) {
+    if (!req.body.username && !req.query.username)
+      res.status(401).send("Need username!");
+  }
+  next();
+});
 
 router.get("/", async (req, res) => {
   const username = req.query.username;
-  if (!username) {
-    res.status(401).send("Need username!");
-  }
-
   const account = await accountModel.getByUsername(username);
-  res.status(200).send(account[0].balance);
+  res.status(200).json({ balance: account[0].balance });
 });
 
 router.post("/", async (req, res) => {
   const { username, password, amount } = req.body;
-  console.log(username, password, amount);
-  if (!username) {
-    res.status(401).send("Need username!");
-  }
+
   const account = await accountModel.getByUsername(username);
-  const admin = await adminModel.getAll(adminUsername);
+
   if (account.balance < amount) {
     res.status(401).send("Insufficient Balance!");
   }
   //const isUser = await bcrypt.compareSync(password, account.password);
-  const isUser = password === account.password;
+  const isUser =
+    password ===
+    "c349891dd5629a5a42facb063ce1ec68cfcd49baeeececd8d0ca3d6277d2d45a17db6b12f0b";
+
   if (isUser) {
     //proceed payment
     const time = new Date();
     const transaction = {
       amount: amount,
-      time: time.toUTCString(),
+      createdAt: time.toISOString(),
       type: 1, //pay type
       username: username,
+      status: "P", //pending transact
     };
-    const res = await transactionRecordModel.create(transaction);
-    if (res) {
-      //update admin & user balance
-      account.balance = Number(account.balance) - Number(amount);
-      admin.balance = Number(admin.balance) + Number(amount);
-      const updatedAccount = await accountModel.updateBalance(username, {
-        balance: account.balance,
-      });
-      const updatedAdmin = await adminModel.updateBalance(admin.username, {
-        balance: admin.balance,
-      });
-      if (updatedAccount && updatedAdmin) {
-        res.status(200).send("Transaction Completed!");
-      }
+    account.balance = Number(account.balance) - Number(amount);
+
+    const createdTransac = await transactionRecordModel.createTransaction(
+      transaction,
+      account
+    );
+
+    if (createdTransac.isCreated) {
+      const transactionManager = TransactionManager;
+      transactionManager.add(createdTransac.data);
+      res.status(200).send("Transaction Completed!");
     } else {
-      res.status(401).send("Error while creating transaction!");
+      res.status(401).send("Error while creating transaction!", createdTransac.data);
     }
   } else {
     res.status(401).send("Password Incorrect!");
