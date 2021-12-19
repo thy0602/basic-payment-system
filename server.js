@@ -22,9 +22,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-// app.use('/account', require('./controllers/accountController'));
+app.use('/account', require('./controllers/accountController'));
 app.use('/admin', require('./controllers/adminController'));
-// app.use('/transaction', require('./controllers/transactionRecordController'));
+app.use('/transaction', require('./controllers/transactionRecordController'));
 
 app.get("/", (req, res) => {
   res.render("home", {
@@ -36,6 +36,7 @@ app.get("/", (req, res) => {
     isHome: 1
   });
 });
+
 app.get("/user_home", (req, res) => {
   res.render("user_home", {
     cssP: () => "css",
@@ -45,6 +46,7 @@ app.get("/user_home", (req, res) => {
     title: "Home",
   });
 });
+
 app.get("/user_list", (req, res) => {
   res.render("user_list", {
     cssP: () => "css",
