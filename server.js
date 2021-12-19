@@ -19,8 +19,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
+//passport
+require('./middlewares/session')(app);
+//passport
+require('./middlewares/passport')(app);
+
 // app.use('/account', require('./controllers/accountController'));
 // app.use('/transaction', require('./controllers/transactionRecordController'));
+app.use('/login', require('./controllers/LoginController'));
 
 app.get("/", (req, res) => {
   res.render("home", {
