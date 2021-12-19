@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS "account" CASCADE;
 -- Table structure for admin
 -----------------------------------
 CREATE TABLE "admin" (
-	"username" varchar(50) PRIMARY KEY,
+	"username" varchar(50) PRIMARY KEY UNIQUE,
 	"balance" numeric(19,4) NOT NULL,
 	"password" varchar(255) NOT NULL
 );
@@ -27,7 +27,7 @@ CREATE TABLE "admin" (
 -- Table structure for account
 -----------------------------------
 CREATE TABLE "account" (
-	"username" varchar(50) PRIMARY KEY,
+	"username" varchar(50) PRIMARY KEY UNIQUE,
 	"balance" numeric(19,4) NOT NULL,
 	"password" varchar(255) NOT NULL,
 	"phone" varchar(10) NOT NULL UNIQUE
