@@ -1,15 +1,18 @@
+-- ======================================
+-- database name: payment_system
+-- ======================================
 --CREATE DATABASE payment_system ENCODING 'UTF8';
 
 -- ======================================
 -- 			Drop table if exists
 -- ======================================
+DROP TABLE IF EXISTS "transaction_record" CASCADE;
 DROP TABLE IF EXISTS "admin" CASCADE;
 DROP TABLE IF EXISTS "account" CASCADE;
-DROP TABLE IF EXISTS "transaction_record" CASCADE;
 
 
 -- ======================================
--- 				Create table
+-- 			Create table
 -- ======================================
 -----------------------------------
 -- Table structure for admin
@@ -36,7 +39,7 @@ CREATE TABLE "account" (
 CREATE TABLE "transaction_record" (
 	"transaction_id" serial PRIMARY KEY,
 	"amount" numeric(19,4) NOT NULL,
-	"createdAt" timestamp NOT NULL,
+	"created_at" timestamp NOT NULL,
 	"username" varchar(50) NOT NULL,
 	"type" int NOT NULL, -- 0/1 <=> nap vao/chi ra
 	
@@ -45,7 +48,7 @@ CREATE TABLE "transaction_record" (
 
 
 -- ======================================
--- 				Insert data
+-- 			Insert data
 -- ======================================
 -----------------------------------
 -- Table admin
@@ -64,19 +67,19 @@ COMMIT;
 -----------------------------------
 BEGIN;
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('thin', 2000000, '$2b$10$UU/.rQwJRux4HLMqDue37OeY1S.BByJb7l3kI.noOeQ.PLu3v.DK6', '0121234343');
+VALUES ('thin', 2000000, '$2b$10$UU/.rQwJRux4HLMqDue37OeY1S.BByJb7l3kI.noOeQ.PLu3v.DK6', '0900121212');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('thy', 2400000, '$2b$10$XXFLhavUekaG8AgYlPMA..ZuLZ3rmx/15lNC/oDiCTXLAZMXfct4m', '0112358111');
+VALUES ('thy', 2400000, '$2b$10$XXFLhavUekaG8AgYlPMA..ZuLZ3rmx/15lNC/oDiCTXLAZMXfct4m', '0900131313');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('nhan', 2500000, '$2b$10$xHVqAckOGbDP8kuOtSt3Pu7iHO7xDSKRWWfIyhsDT2M4YuOXXcWGm', '0901234567');
+VALUES ('nhan', 2500000, '$2b$10$xHVqAckOGbDP8kuOtSt3Pu7iHO7xDSKRWWfIyhsDT2M4YuOXXcWGm', '0900141414');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('duy', 3100000, '$2b$10$Ct3W5S5H.9uUk2SBava.yOBYWQLRb0eg4K2gedKPfOMV3C6h96htq', '0913572468');
+VALUES ('duy', 3100000, '$2b$10$Ct3W5S5H.9uUk2SBava.yOBYWQLRb0eg4K2gedKPfOMV3C6h96htq', '0900232323');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('trung', 3500000, '$2b$10$QigU8ZBUC5aKi318boewyuLabgQYdIo.k6I2FHTsgkQo8zFQJVeFK', '0924681357');
+VALUES ('trung', 3500000, '$2b$10$QigU8ZBUC5aKi318boewyuLabgQYdIo.k6I2FHTsgkQo8zFQJVeFK', '0900000011');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('viet', 4900000, '$2b$10$tIqC8/3hR/gX/Lflb5W8I.1BEkowAa6aYtL7cQpSjJk3yM4MSMBE2', '0900000001');
+VALUES ('viet', 4900000, '$2b$10$tIqC8/3hR/gX/Lflb5W8I.1BEkowAa6aYtL7cQpSjJk3yM4MSMBE2', '0900000022');
 INSERT INTO "account" ("username", "balance", "password", "phone") 
-VALUES ('nam', 4500000, '$2b$10$BlNygHawXHfvkl2cAOk8d.IKdpBSL34kpMC7YjF8h9zqYnNFtg.Bq', '0901111111');
+VALUES ('nam', 4500000, '$2b$10$BlNygHawXHfvkl2cAOk8d.IKdpBSL34kpMC7YjF8h9zqYnNFtg.Bq', '0900000033');
 COMMIT;
 
 -----------------------------------

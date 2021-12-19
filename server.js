@@ -7,6 +7,9 @@ const app = express();
 const hbs = exphbs.create({
   defaultLayout: "mainLayout",
   extname: "hbs",
+  helpers: {
+    sum: (a, b) => a + b
+  }
 });
 
 app.engine(".hbs", hbs.engine);
@@ -20,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // app.use('/account', require('./controllers/accountController'));
+app.use('/admin', require('./controllers/adminController'));
 // app.use('/transaction', require('./controllers/transactionRecordController'));
 
 app.get("/", (req, res) => {
