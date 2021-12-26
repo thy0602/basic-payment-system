@@ -16,7 +16,12 @@ router.use(function (req, res, next) {
 router.get("/", async (req, res) => {
   const username = req.query.username;
   const account = await accountModel.getByUsername(username);
-  res.status(200).json({ balance: account[0].balance });
+
+  if (account) {
+    res.status(200).json({ balance: account[0].balance });
+  } else {
+    res.status(401).send("Invalid username");
+  }
 });
 
 router.post("/", async (req, res) => {
@@ -24,14 +29,14 @@ router.post("/", async (req, res) => {
 
   const account = await accountModel.getByUsername(username);
 
+  if (!account) {
+    return res.status(401).send("Invalid username");
+  }
   if (account.balance < amount) {
     res.status(401).send("Insufficient Balance!");
   }
-  //const isUser = await bcrypt.compareSync(password, account.password);
-  const isUser =
-    password ===
-    "c349891dd5629a5a42facb063ce1ec68cfcd49baeeececd8d0ca3d6277d2d45a17db6b12f0b";
 
+  const isUser = await bcrypt.compareSync(password, account.password);
   if (isUser) {
     //proceed payment
     const time = new Date();

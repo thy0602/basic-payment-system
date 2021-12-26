@@ -25,6 +25,9 @@ app.use(express.static("public"));
 //api
 app.use("/api/transaction", require('./api/paymentApi'))
 
+//api
+app.use('/api/transaction',require('./api/paymentApi'));
+
 app.get("/", (req, res) => {
   res.render("home", {
     cssP: () => "css",

@@ -147,3 +147,46 @@ exports.delete = async (tableName, fieldname, value) => {
     console.log("Error db/delete", e);
   }
 };
+
+exports.createTransaction = async (transaction, user) => {
+    const table = new pgp.helpers.TableName({
+      table: "transaction_record",
+      schema: schema,
+    });
+    const queryStr =
+      pgp.helpers.insert(transaction, null, table) + " RETURNING *";
+  
+    try {
+      const data = await db.tx("update-user", async (t) => {
+        await t.none("UPDATE account SET balance = $1 WHERE username = $2", [
+          user.balance,
+          user.username,
+        ]);
+        return await t.one(queryStr);
+      });
+  
+      // success, COMMIT was executed
+      return { isCreated: true, data: data };
+    } catch (err) {
+      // failure, ROLLBACK was executed
+      return { isCreated: false, data: err };
+    }
+  };
+  
+  exports.finalizeTransaction = async (transaction, admin) => {
+    try {
+      await db.tx("finalize-transaction", async (t) => {
+        await t.none(
+          "UPDATE transaction_record SET status = $1 WHERE transaction_id = $2",
+          ["D", transaction.transaction_id]
+        );
+        await t.none("UPDATE admin SET balance = $1 WHERE username = $2", [
+          admin.balance,
+          admin.username,
+        ]);
+      });
+      return { isFinalized: true, message: "" };
+    } catch (err) {
+      return { isFinalized: false, message: err };
+    }
+  };
