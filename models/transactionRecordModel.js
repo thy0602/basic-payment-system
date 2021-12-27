@@ -24,3 +24,21 @@ exports.create = async (entity) => {
     const res = await db.create(tableName, entity);
     return res;
 }
+
+exports.createTransaction = async (transaction, user) => {
+    try{
+        const res = await db.createTransaction(transaction, user);
+        return res;
+    } catch(err){
+        throw err;
+    }
+}
+
+exports.finalizeTransaction = async (transaction, admin) => {
+    try{
+        const res = await db.finalizeTransaction(transaction, admin);
+        return res;
+    } catch(err){
+        throw err;
+    }
+}
