@@ -13,7 +13,7 @@ exports.getAll = async () => {
 }
 
 exports.getByUsername = async (username) => {
-    const res = await db.getByAField(tableName, PKFieldName, username);
+    const res = await db.getByAField(tableName, tableFields.username, username);
     return res;
 }
 
