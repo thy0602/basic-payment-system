@@ -1,12 +1,10 @@
-const pgp = require("pg-promise")({
+const pgp = require('pg-promise')({
   capSQL: true,
 });
+const schema = 'public';
 
-const schema = "public";
+const { db } = require('./db_config.js');
 
-const { connection } = require("./db_config.js");
-
-const db = pgp(connection);
 
 // Get all records in a table
 exports.getAll = async (tableName) => {
