@@ -30,7 +30,6 @@ require('./middlewares/passport')(app);
 app.use('/', require('./controllers/homeController'));
 app.use('/login', require('./controllers/LoginController'));
 app.use('/account', require('./controllers/accountController'));
-app.use('/admin', require('./controllers/adminController'));
 app.use('/transaction', require('./controllers/transactionRecordController'));
 
 //api
@@ -40,35 +39,9 @@ app.use("/api/transaction", require('./api/paymentApi'))
 app.use('/api/transaction',require('./api/paymentApi'));
 
 app.get("/", (req, res) => {
-  res.render("home", {
-    cssP: () => "css",
-    scriptP: () => "scripts",
-    navP: () => "nav",
-    footerP: () => "footer",
-    title: "Home",
-    isHome: 1
-  });
-});
-
-app.get("/user_home", (req, res) => {
-  res.render("user_home", {
-    cssP: () => "css",
-    scriptP: () => "scripts",
-    navP: () => "nav",
-    footerP: () => "footer",
-    title: "Home",
-  });
-});
-
-app.get("/user_list", (req, res) => {
-  res.render("user_list", {
-    cssP: () => "css",
-    scriptP: () => "scripts",
-    navP: () => "nav",
-    footerP: () => "footer",
-    title: "User List",
-    isUserList: 1
-  });
+  if (!req.cookies.user)
+    return res.redirect('/login-id');
+  res.redirect('/home');
 });
 
 app.listen(port, () => {

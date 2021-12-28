@@ -23,12 +23,12 @@ exports.create = async (entity) => {
 }
 
 exports.update = async (PKvalue, entity) => {
-    const res = await db.update(tableName, PKFieldName, PKvalue, entity);
+    const res = await db.update(tableName, tableFields.username, PKvalue, entity);
     return res;
 }
 
 exports.delete = async (PKvalue) => {
-    const res = await db.delete(tableName, PKFieldName, PKvalue);
+    const res = await db.delete(tableName, tableFields.username, PKvalue);
     return res;
 }
 

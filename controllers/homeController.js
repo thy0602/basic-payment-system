@@ -4,6 +4,9 @@ const transacRecordModel = require("../models/transactionRecordModel");
 const accountModel = require("../models/accountModel");
 
 router.get('/register-password', (req, res) => {
+    if (req.user || req.cookies.user)
+        return res.redirect('/home');
+
     res.render('login_views/login_createpw', {
         layout: false,
         id: req.query.id,
@@ -12,6 +15,9 @@ router.get('/register-password', (req, res) => {
 })
 
 router.get('/login-password', (req, res) => {
+    if (req.user || req.cookies.user)
+        return res.redirect('/home');
+
     res.render('login_views/login_pw', {
         layout: false,
         id: req.query.id,
@@ -20,8 +26,9 @@ router.get('/login-password', (req, res) => {
 });
 
 router.get('/login-id', (req, res) => {
-    if (req.user)
-        return res.redirect('/');
+    if (req.user || req.cookies.user)
+        return res.redirect('/home');
+        
     if (req.query.status == 'true') {
         return res.render('login_views/login_id', {
             layout: false,
@@ -36,12 +43,19 @@ router.get('/login-id', (req, res) => {
     });
 });
 
+router.get('/logout', async (req, res, next) => {
+    if (req.user)
+        req.logOut();
+    res.clearCookie("user");
+    return res.redirect('/login-id');
+});
+
 router.get('/home', async (req, res) => {
-    if (!req.cookies.user)
-        return res.redirect('/login-id');
-    console.log("User", req.cookies.user);
     try {
-        if (user.cookies.user == 'admin') {
+        if (!req.cookies.user)
+            return res.redirect('/login-id');
+
+        if (req.cookies.user == 'admin') {
             //Lấy ra danh sách các transaction mà account đã chi ra (nộp vào cho admin)
             const transactions = await transacRecordModel.getAllSortedByTime();
             const admin = await adminModel.getOne();
@@ -74,6 +88,30 @@ router.get('/home', async (req, res) => {
         });
     } catch (error) {
         console.log("Home / error:", error);
+        res.status(400).send(error.message);
+    }
+});
+
+router.get("/manage-users", async (req, res) => {
+    try {
+        if (!req.cookies.user)
+            return res.redirect('/login-id');
+        if (req.cookies.user != 'admin')
+            return res.redirect('/home');
+        
+        // Lấy ra danh sách users (accounts)
+        const accounts = await accountModel.getAll();
+        res.render("admin/manageUser", {
+            cssP: () => "css",
+            scriptP: () => "scripts",
+            navP: () => "nav",
+            footerP: () => "footer",
+            title: "Manage User",
+            isUserList: 1,
+            users: accounts
+        });
+    } catch (error) {
+        console.log("admin get /manage-users error:", error);
         res.status(400).send(error.message);
     }
 });
