@@ -14,15 +14,15 @@ router.post('/id', async (req, res) => {
         //nếu có user thì check xem có password chưa?
         if (!user[0].password) {
             //là null
-            return res.redirect('/login/crpassword?id=' + id);
+            return res.redirect('/register-password?id=' + id);
         }
-        return res.redirect('/login/password?id=' + id);
+        return res.redirect('/login-password?id=' + id);
     }
     //nếu không có user
     //trường hợp là admin
     const admin = await adminModel.getByUsername(req.body.id);
     if (admin.length > 0) {
-        return res.redirect('/login/password?id=' + id);
+        return res.redirect('/login-password?id=' + id);
     }
     return res.render('login_views/login_id', {
         layout: false,
@@ -70,7 +70,7 @@ router.post('/crpassword', async (req, res) => {
         balance: null
     }
     const rs = await accountModel.update(req.body.id, user);
-    res.redirect('/login/id?status=true');
+    res.redirect('/login-id?status=true');
     return;
 });
 

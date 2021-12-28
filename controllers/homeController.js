@@ -1,10 +1,4 @@
-const accountModel = require('../models/accountModel');
-const adminModel = require('../models/adminModel');
 const router = require('express').Router();
-const bcrypt = require('bcrypt');
-const salt = 10;
-const passport = require('passport');
-const { redirect } = require('express/lib/response');
 
 router.get('/register-password', (req, res) => {
     res.render('login_views/login_createpw', {
