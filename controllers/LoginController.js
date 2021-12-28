@@ -66,8 +66,7 @@ router.post('/password', async (req, res, next) => {
 router.post('/crpassword', async (req, res) => {
     const pwhashed = await bcrypt.hash(req.body.confirm_password, salt);
     const user = {
-        password: pwhashed,
-        balance: null
+        password: pwhashed
     }
     const rs = await accountModel.update(req.body.id, user);
     res.redirect('/login-id?status=true');

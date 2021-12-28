@@ -11,7 +11,8 @@ const tableFields = {
     username: 'username',   // Primary Key
     balance: 'balance',
     password: 'password',
-    phone: 'phone'
+    phone: 'phone',
+    is_deleted: 'is_deleted'
 }
 
 exports.getAll = async () => {
@@ -29,11 +30,6 @@ exports.create = async (entity) => {
     return res;
 }
 
-exports.update = async (PKvalue, entity) => {
-    const res = await db_query.update(tableName, tableFields.username, PKvalue, entity);
-    return res;
-}
-
 exports.delete = async (PKvalue) => {
     const res = await db_query.delete(tableName, tableFields.username, PKvalue);
     return res;
@@ -44,4 +40,45 @@ exports.getOneByUsername = async (username) => {
     if (res.length > 0)
         return res[0];
     return null;
+}
+
+// generic way to skip NULL/undefined values for strings/boolean
+function isSkipCol(col) {
+    return {
+        name: col,
+        skip: function () {
+            var val = this[col];
+            return val === null || val === undefined;
+        }
+    };
+}
+
+// generic way to skip NULL/undefined values for integers,
+// while parsing the type correctly:
+function isSkipIntCol(col) {
+    return {
+        name: col,
+        skip: function () {
+            var val = this[col];
+            return val === null || val === undefined;
+        },
+        init: function () {
+            return parseInt(this[col]);
+        }
+    };
+}
+
+// Creating a reusable ColumnSet for all updates:
+var csGeneric = new pgp.helpers.ColumnSet([
+    isSkipCol(tableFields.username),
+    isSkipIntCol(tableFields.balance),
+    isSkipCol(tableFields.password),
+    isSkipCol(tableFields.phone),
+    isSkipCol(tableFields.is_deleted)
+], {table: tableName});
+
+exports.update = async (PKvalue, entity) => {
+    const queryStr = pgp.helpers.update(entity, csGeneric) + ` WHERE "username" = '${PKvalue}' RETURNING *`;
+    const res = await db.one(queryStr);
+    return res;
 }
