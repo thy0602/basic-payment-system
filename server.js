@@ -27,6 +27,7 @@ require('./middlewares/session')(app);
 //passport
 require('./middlewares/passport')(app);
 
+app.use('/', require('./controllers/homeController'));
 app.use('/login', require('./controllers/LoginController'));
 app.use('/account', require('./controllers/accountController'));
 app.use('/admin', require('./controllers/adminController'));
