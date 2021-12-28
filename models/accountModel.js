@@ -31,3 +31,10 @@ exports.delete = async (PKvalue) => {
     const res = await db.delete(tableName, PKFieldName, PKvalue);
     return res;
 }
+
+exports.getOneByUsername = async (username) => {
+    const res = await db.getByAField(tableName, tableFields.username, username);
+    if (res.length > 0)
+        return res[0];
+    return null;
+}

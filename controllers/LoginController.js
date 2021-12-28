@@ -4,7 +4,6 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const salt = 10;
 const passport = require('passport');
-const { redirect } = require('express/lib/response');
 
 router.post('/id', async (req, res) => {
     let id = req.body.id;
@@ -58,7 +57,8 @@ router.post('/password', async (req, res, next) => {
                 });
             }
             console.log('login successful');
-            return res.redirect('/');
+            res.cookie('user', user.username);
+            return res.redirect('/home');
         })
     })(req, res, next);
 });

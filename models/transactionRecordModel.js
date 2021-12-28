@@ -42,3 +42,8 @@ exports.finalizeTransaction = async (transaction, admin) => {
         throw err;
     }
 }
+
+exports.getAllTransactionByUsername = async (username) => {
+    const res = await db.getAllTransactionByUsername(tableName, tableFields.created, "DESC", username);
+    return res;
+}

@@ -12,10 +12,12 @@ module.exports = app => {
         async (username, password, done) => {
             let user;
             try {
+                console.log("username: ", username);
                 user = await accountModel.getByUsername(username);
                 if (user.length == 0) {
                     user = await adminModel.getByUsername(username);
                 }
+                console.log("user: ", user);
                 const pwd = await bcrypt.compare(password, user[0].password);
                 if (!pwd) {
                     return done(null, false, {
@@ -24,6 +26,7 @@ module.exports = app => {
                 }
                 return done(null, user[0]);
             } catch (error) {
+                console.log("Error passport:", error);
                 return done(error);
             }
         }
