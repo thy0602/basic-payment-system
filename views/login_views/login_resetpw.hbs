@@ -21,16 +21,25 @@
 
     <div class="container">
         <div class="welcome">
-            Hey! </br> Welcome back
+            Change your Passcode
         </div>
-        <form class='inputtag' action="email" method="post">
-            <input class='input' type="id" name='id' value="{{id}}" style="display: none;">
-            <div>EMAIL</div>
-            <input class='input' type="text" name='email' required>
+        <form class='inputtag' action="/login/rspassword" method="post"
+            oninput='confirm_password.setCustomValidity(create_password.value != confirm_password.value ? "Passcode không trùng khớp." : "")'>
+            <div>Current Passcode</div>
+            <input class='input' type="password" name='current_password' required>
             <div class="line_bottom_id"></div>
-            <button class='submit' type="submit">CREATE</button>
+            <div>New Passcode</div>
+            <input class='input' type="password" name='create_password' required>
+            <div class="line_bottom_id"></div>
+            <div>Confirm Passcode</div>
+            <input class='input' type="password" name='confirm_password' required>
+            <div class="line_bottom_id"></div>
+            <button class='submit' type="submit">CHANGE PASSCODE</button>
+            {{>(msg)}}
         </form>
+
     </div>
+
 </body>
 
 </html>

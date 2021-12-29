@@ -17,6 +17,8 @@ router.get('/register-password', (req, res) => {
 router.get('/login-password', (req, res) => {
     if (req.user || req.cookies.user)
         return res.redirect('/home');
+    if (!req.query.id)
+        return res.redirect('/login-id');
 
     res.render('login_views/login_pw', {
         layout: false,
@@ -28,12 +30,12 @@ router.get('/login-password', (req, res) => {
 router.get('/login-id', (req, res) => {
     if (req.user || req.cookies.user)
         return res.redirect('/home');
-        
+
     if (req.query.status == 'true') {
         return res.render('login_views/login_id', {
             layout: false,
             color: '#49c53f',
-            message: 'Updated passcode successful!',
+            message: 'Updated passcode successfully!',
             msg: () => 'login_partials/msg_id'
         });
     }
@@ -43,7 +45,18 @@ router.get('/login-id', (req, res) => {
     });
 });
 
+router.get('/change-password/:id/edit', (req, res) => {
+    if (req.user) {
+        return res.render('login_views/login_resetpw', {
+            layout: false,
+            msg: () => 'empty'
+        });
+    }
+    return res.redirect('/home');
+})
+
 router.get('/logout', async (req, res, next) => {
+    console.log(req.user);
     if (req.user)
         req.logOut();
     res.clearCookie("user");
@@ -98,7 +111,7 @@ router.get("/manage-users", async (req, res) => {
             return res.redirect('/login-id');
         if (req.cookies.user != 'admin')
             return res.redirect('/home');
-        
+
         // Lấy ra danh sách users (accounts)
         const accounts = await accountModel.getAll();
         res.render("admin/manageUser", {

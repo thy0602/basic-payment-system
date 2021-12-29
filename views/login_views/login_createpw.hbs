@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name='viewport' content="width=device-width, initial-scale=1.0">
     <title>User Database </title>
-    <link rel="stylesheet" href="/login/scss/login.css">
+    <link rel="stylesheet" href="/css/login/scss/login.css">
     <link rel="shortcut icon" href="#">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,8 +23,9 @@
         <div class="welcome">
             Hey! </br> Welcome back
         </div>
-        <form class='inputtag' action="/login/crpassword" method="post"
-            oninput='confirm_password.setCustomValidity(create_password.value != confirm_password.value ? "Passcode không trùng khớp." : "")'>
+        <form class='inputtag' action="/login/crpassword" method="post" oninput='confirm_password.setCustomValidity(
+                create_password.value != confirm_password.value ? "Passcode không trùng khớp." : (
+                    create_password.value == id.value ? "Passcode không được trùng với Username":""))'>
             <input class='input' type="id" name='id' value="{{id}}" style="display: none;">
             <div>Passcode</div>
             <input class='input' type="password" name='create_password' required>
