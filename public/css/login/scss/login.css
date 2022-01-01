@@ -100,6 +100,10 @@ body {
   text-decoration: none;
 }
 
+.hover-cursor:hover {
+  cursor: pointer;
+}
+
 #msg {
   -webkit-animation: cssAnimation 5s forwards;
   animation: cssAnimation 2s forwards;

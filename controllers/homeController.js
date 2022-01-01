@@ -78,8 +78,8 @@ router.get('/home', async (req, res) => {
                 adminBalance: admin.balance,
                 totalTransactions: transactions.length,
                 cssP: () => "css",
-                scriptP: () => "scripts",
                 navP: () => "nav",
+                scriptP: () => "scripts_home_admin",
                 footerP: () => "footer",
                 title: "Admin Home",
                 isHome: 1
@@ -94,8 +94,8 @@ router.get('/home', async (req, res) => {
             transactions: transactions,
             balance: user.balance,
             cssP: () => "css",
-            scriptP: () => "scripts",
             navP: () => "nav",
+            scriptP: () => "scripts_home_user",
             footerP: () => "footer",
             title: "User Home"
         });
@@ -116,12 +116,13 @@ router.get("/manage-users", async (req, res) => {
         const accounts = await accountModel.getAll();
         res.render("admin/manageUser", {
             cssP: () => "css",
-            scriptP: () => "scripts",
+            scriptP: () => "scripts_manage_users",
             navP: () => "nav",
             footerP: () => "footer",
             title: "Manage User",
             isUserList: 1,
-            users: accounts
+            users: accounts,
+            total_users: accounts.length
         });
     } catch (error) {
         console.log("admin get /manage-users error:", error);

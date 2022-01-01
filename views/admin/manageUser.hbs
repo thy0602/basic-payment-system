@@ -27,11 +27,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 grid-margin stretch-card">
-                    <div class="card">
+                <div class="col-lg-4 grid-margin stretch-card">
+                    <div class="card card-tale card-dark-blue h-50">
                         <div class="card-body">
-                            <h4 class="card-title">Number of users</h4>
-                            <canvas id="lineChart"></canvas>
+                            <p class="mb-4">Total users</p>
+                            <p class="fs-30 mb-2">{{total_users}}</p>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                                                 <td class="font-weight-bold">{{this.phone}}</td>
                                                 <td>{{this.balance}}</td>
                                                 <td class="font-weight-medium">
-                                                    <div class="badge badge-danger"><i class="icon-trash mx-2"></i></div>
+                                                    <div class="badge badge-danger hover-cursor"><i class="icon-trash mx-2"></i></div>
                                                 </td>
                                             </tr>
                                         {{/each}}
