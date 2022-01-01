@@ -11,8 +11,9 @@ router.post('/id', async (req, res) => {
     const user = await accountModel.getByUsername(req.body.id);
     if (user.length > 0) {
         //nếu có user thì check xem có password chưa?
-        if (!user[0].password) {
-            //là null
+        let check = await bcrypt.compare(id, user[0].password);
+        if (check) {
+            //là chưa tạo
             return res.redirect('/register-password?id=' + id);
         }
         return res.redirect('/login-password?id=' + id);
@@ -56,7 +57,7 @@ router.post('/password', async (req, res, next) => {
                     message: err
                 });
             }
-            console.log('login successful');
+            console.log('login successfully');
             res.cookie('user', user.username);
             return res.redirect('/home');
         })
@@ -70,6 +71,28 @@ router.post('/crpassword', async (req, res) => {
     }
     const rs = await accountModel.update(req.body.id, user);
     res.redirect('/login-id?status=true');
+    return;
+});
+
+router.post('/rspassword', async (req, res) => {
+
+    const userdb = await accountModel.getByUsername(req.user);
+    let checkpw = await bcrypt.compare(req.body.current_password, userdb[0].password);
+    if (!checkpw) {
+        return res.render('login_views/login_resetpw', {
+            layout: false,
+            message: 'Current Passcode is wrong',
+            color: '#FF7B7B',
+            msg: () => 'login_partials/msg_password'
+        });
+    }
+    const pwhashed = await bcrypt.hash(req.body.confirm_password, salt);
+    const user = {
+        password: pwhashed,
+        balance: userdb[0].balance
+    }
+    const rs = await accountModel.update(req.user, user);
+    res.redirect('/home');
     return;
 });
 

@@ -17,7 +17,7 @@ module.exports = app => {
                 if (user.length == 0) {
                     user = await adminModel.getByUsername(username);
                 }
-                console.log("user: ", user);
+                // console.log("user: ", user);
                 const pwd = await bcrypt.compare(password, user[0].password);
                 if (!pwd) {
                     return done(null, false, {
