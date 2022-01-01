@@ -11,8 +11,7 @@ router.post('/id', async (req, res) => {
     const user = await accountModel.getByUsername(req.body.id);
     if (user.length > 0) {
         //nếu có user thì check xem có password chưa?
-        let check = await bcrypt.compare(id, user[0].password);
-        if (check) {
+        if (!user[0].password) {
             //là chưa tạo
             return res.redirect('/register-password?id=' + id);
         }
@@ -75,8 +74,28 @@ router.post('/crpassword', async (req, res) => {
 });
 
 router.post('/rspassword', async (req, res) => {
+    if (req.cookies.user == 'admin') {
+        const admin = await adminModel.getOne();
+        let checkpw = await bcrypt.compare(req.body.current_password, admin.password);
+        if (!checkpw) {
+            return res.render('login_views/login_resetpw', {
+                layout: false,
+                message: 'Current Passcode is wrong',
+                color: '#FF7B7B',
+                msg: () => 'login_partials/msg_password'
+            });
+        }
 
-    const userdb = await accountModel.getByUsername(req.user);
+        const pwhashed = await bcrypt.hash(req.body.confirm_password, salt);
+        const entity = {
+            password: pwhashed,
+        }
+        const rs = await adminModel.update(entity);
+        res.redirect('/home');
+        return;
+    }
+
+    const userdb = await accountModel.getByUsername(req.cookies.user);
     let checkpw = await bcrypt.compare(req.body.current_password, userdb[0].password);
     if (!checkpw) {
         return res.render('login_views/login_resetpw', {
@@ -91,7 +110,7 @@ router.post('/rspassword', async (req, res) => {
         password: pwhashed,
         balance: userdb[0].balance
     }
-    const rs = await accountModel.update(req.user, user);
+    const rs = await accountModel.update(req.cookies.user, user);
     res.redirect('/home');
     return;
 });

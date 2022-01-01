@@ -82,3 +82,8 @@ exports.update = async (PKvalue, entity) => {
     const res = await db.one(queryStr);
     return res;
 }
+
+exports.getAllOrderByUsername = async (optionSort) => {
+    const res = await db_query.getAllOrderByField(tableName, tableFields.username, optionSort);
+    return res;
+}

@@ -45,8 +45,8 @@ router.get('/login-id', (req, res) => {
     });
 });
 
-router.get('/change-password/:id/edit', (req, res) => {
-    if (req.user) {
+router.get('/change-password', (req, res) => {
+    if (req.cookies.user) {
         return res.render('login_views/login_resetpw', {
             layout: false,
             msg: () => 'empty'

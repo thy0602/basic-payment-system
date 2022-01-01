@@ -7,6 +7,16 @@
 <script src="./js/todolist.js"></script>
 <script src="./js/chart.js"></script>
 
-<script type="text/javascript">
-    console.log("hello");
+<script>
+    async function onclickDelete(id) {
+        await $.ajax({
+            url: `/account/${id}`,
+            type: 'DELETE',
+            success: async function (response, status) {
+                const res = await response;
+                window.location.href = '/manage-users';
+            }
+        });
+    }
+
 </script>

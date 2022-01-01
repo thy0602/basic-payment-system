@@ -27,3 +27,42 @@ exports.getOne = async () => {
         return res[0];
     return null;
 }
+
+// generic way to skip NULL/undefined values for strings/boolean
+function isSkipCol(col) {
+    return {
+        name: col,
+        skip: function () {
+            var val = this[col];
+            return val === null || val === undefined;
+        }
+    };
+}
+
+// generic way to skip NULL/undefined values for integers,
+// while parsing the type correctly:
+function isSkipIntCol(col) {
+    return {
+        name: col,
+        skip: function () {
+            var val = this[col];
+            return val === null || val === undefined;
+        },
+        init: function () {
+            return parseInt(this[col]);
+        }
+    };
+}
+
+// Creating a reusable ColumnSet for all updates:
+var csGeneric = new pgp.helpers.ColumnSet([
+    isSkipCol(tableFields.username),
+    isSkipIntCol(tableFields.balance),
+    isSkipCol(tableFields.password)
+], {table: tableName});
+
+exports.update = async (entity) => {
+    const queryStr = pgp.helpers.update(entity, csGeneric) + ' RETURNING *';
+    const res = await db.one(queryStr);
+    return res;
+}
