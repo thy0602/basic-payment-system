@@ -16,13 +16,32 @@ const tableFields = {
 }
 
 exports.getAll = async () => {
-    const res = await db_query.getAll(tableName);
-    return res;
+    const table = new pgp.helpers.TableName({ table: tableName, schema: schema });
+    const queryStr = pgp.as.format('SELECT * FROM $1 WHERE "is_deleted" IS FALSE', table);
+
+    try {
+        const res = await db.any(queryStr);
+        return res;
+    } catch (e) {
+        console.log("Error db/load", e);
+    }
 }
 
 exports.getByUsername = async (username) => {
-    const res = await db_query.getByAField(tableName, tableFields.username, username);
-    return res;
+    // const res = await db_query.getByAField(tableName, tableFields.username, username);
+    const table = new pgp.helpers.TableName({ table: tableName, schema: schema });
+    const queryStr = pgp.as.format(
+        `SELECT * FROM $1 WHERE "username"='${username}' AND "is_deleted" IS FALSE`,
+        table
+    );
+
+    try {
+        // one: trả về 1 kết quả
+        const res = await db.any(queryStr);
+        return res;
+    } catch (e) {
+        console.log("Error db/get", e);
+    }
 }
 
 exports.create = async (entity) => {

@@ -86,6 +86,15 @@ router.post('/rspassword', async (req, res) => {
             });
         }
 
+        if (req.body.confirm_password != req.body.create_password) {
+            return res.render('login_views/login_resetpw', {
+                layout: false,
+                message: 'Inconsistent new passcode',
+                color: '#FF7B7B',
+                msg: () => 'login_partials/msg_password'
+            });
+        }
+
         const pwhashed = await bcrypt.hash(req.body.confirm_password, salt);
         const entity = {
             password: pwhashed,

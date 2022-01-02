@@ -11,7 +11,10 @@
     async function onclickDelete(id) {
         await $.ajax({
             url: `/account/${id}`,
-            type: 'DELETE',
+            type: 'PUT',
+            data: {
+                is_deleted: true
+            },
             success: async function (response, status) {
                 const res = await response;
                 window.location.href = '/manage-users';

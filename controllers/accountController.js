@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    console.log("hello");
     let phone = req.body.phone;
     let entity = await {
         username: await generateUsername(),
@@ -24,16 +23,6 @@ router.post('/', async (req, res) => {
         phone: phone,
         is_deleted: false
     }
-    
-    // try {
-    //     const response = await Account.create(entity);
-    //     if (typeof response === 'undefined')
-    //         res.status(500).send("Internal server error");
-
-    //     res.status(200).send(response);
-    // } catch (e) {
-    //     res.status(400).send(e.message);
-    // }
 
     const response = await Account.create(entity);
     console.log(response);

@@ -46,6 +46,7 @@
                                 <table class="table table-striped table-borderless">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Username</th>
                                             <th>Phone Number</th>
                                             <th>Balance</th>
@@ -55,6 +56,7 @@
                                     <tbody>
                                         {{#each users}}
                                             <tr>
+                                                <td class="py-1">{{sum @index 1}}</td>
                                                 <td>{{this.username}}</td>
                                                 <td class="font-weight-bold">{{this.phone}}</td>
                                                 <td>{{this.balance}}</td>
