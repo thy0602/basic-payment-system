@@ -27,8 +27,8 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const { username, password, amount } = req.body;
 
-  const account = await accountModel.getByUsername(username);
-
+  let account = await accountModel.getByUsername(username);
+  account = account[0];
   if (!account) {
     return res.status(401).send("Invalid username");
   }

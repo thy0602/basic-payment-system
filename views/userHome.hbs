@@ -18,14 +18,19 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Top Up</h4>
-                                <form class="form-inline">
+                                <form class="form-inline" action='/transaction' method='post'>
                                     <label class="sr-only" for="inlineFormInputName2">Name</label>
-                                    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2"
+                                    <input type="number" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2"
                                         placeholder="Top Up Amount"
-                                        style="margin: 45px 45px; width: calc(100% - 90px); border: 1px solid #4B49AC">
+                                        style="margin: 45px 45px; width: calc(100% - 90px); border: 1px solid #4B49AC"
+                                        name="amount">
+                                    <button class="btn" id="btn-top-up" type="submit">
+                                        <div class="row">
+                                            <div class="col"><i class="ti-wallet mx-2"></i></div>
+                                            <div class="col">TOPUP</div>
+                                        </div>
+                                    </button>
                                 </form>
-                                <button class="btn" id="btn-top-up" type="submit"><i class="ti-wallet mx-2"></i> TOP
-                                    UP</button>
                             </div>
                         </div>
                     </div>

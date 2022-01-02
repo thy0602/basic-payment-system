@@ -87,3 +87,19 @@ exports.getAllOrderByUsername = async (optionSort) => {
     const res = await db_query.getAllOrderByField(tableName, tableFields.username, optionSort);
     return res;
 }
+
+exports.topup = async (transaction, user) => {
+    try {
+        const res = await db.tx("topup", async (t) => {
+            await t.one("UPDATE account SET balance = $1 WHERE username = $2 RETURNING *", [
+                user.balance,
+                user.username,
+            ]);
+            await db_query.create('transaction_record', transaction);
+        });
+        return res;
+    } catch (err) {
+        // failure, ROLLBACK was executed
+        return err;
+    }
+}

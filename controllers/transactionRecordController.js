@@ -1,28 +1,32 @@
 const router = require('express').Router();
-const TransactionRecord = require("../models/transactionRecordModel");
-
-router.get('/', async (req, res) => {
-    try {
-        const response = await TransactionRecord.getAllSortedByTime();
-        if (typeof response === 'undefined')
-            res.status(500).send("Internal server error");
-            
-        res.status(200).send(response);
-    } catch (e) {
-        res.status(400).send(e.message);
-    }
-});
+const transactionRecordModel = require("../models/transactionRecordModel");
+const accountModel = require("../models/accountModel");
+const TransactionManager = require("../TransactionManager/TransactionManager");
 
 router.post('/', async (req, res) => {
-    try {
-        const response = await TransactionRecord.create(req.body);
-        if (typeof response === 'undefined')
-            res.status(500).send("Internal server error");
+    if (!req.cookies.user)
+        return res.redirect('/');
+    
+    const { amount } = req.body;
+    const username = req.cookies.user;
 
-        res.status(200).send(response);
-    } catch (e) {
-        res.status(400).send(e.message);
-    }
+    let account = await accountModel.getByUsername(username);
+    account = account[0];
+
+    //proceed payment
+    const time = new Date();
+    const transaction = {
+        amount: amount,
+        created_at: time.toISOString(),
+        type: 0,
+        username: username,
+        status: "P", //pending transact
+    };
+
+    account.balance = Number(account.balance) + Number(amount);
+
+    await accountModel.topup(transaction, account);
+    res.redirect('/');
 })
 
 module.exports = router;
