@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const bcrypt = require('bcrypt');
+
 const accountModel = require("../models/accountModel");
 const TransactionManager = require("../TransactionManager/TransactionManager");
 const transactionRecordModel = require("../models/transactionRecordModel");
@@ -28,6 +30,7 @@ router.post("/", async (req, res) => {
   const { username, password, amount } = req.body;
 
   let account = await accountModel.getByUsername(username);
+
   account = account[0];
   if (!account) {
     return res.status(401).send("Invalid username");
@@ -42,7 +45,7 @@ router.post("/", async (req, res) => {
     const time = new Date();
     const transaction = {
       amount: amount,
-      createdAt: time.toISOString(),
+      created_at: time.toISOString(),
       type: 1, //pay type
       username: username,
       status: "P", //pending transact
@@ -59,7 +62,7 @@ router.post("/", async (req, res) => {
       transactionManager.add(createdTransac.data);
       res.status(200).send("Transaction Completed!");
     } else {
-      res.status(401).send("Error while creating transaction!", createdTransac.data);
+      res.status(401).send("Error while creating transaction!"+createdTransac.data);
     }
   } else {
     res.status(401).send("Password Incorrect!");

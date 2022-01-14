@@ -9,7 +9,7 @@ const tableName = "transaction_record";
 const tableFields = {
     id: 'transaction_id',   // Primary Key
     amount: 'amount',
-    created: 'created_at',
+    created_at: 'created_at',
     username: 'username',
     type: 'type'
 }
