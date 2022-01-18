@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-
 const bcrypt = require('bcrypt');
+const salt = 10;
 
 const accountModel = require("../models/accountModel");
 const TransactionManager = require("../TransactionManager/TransactionManager");
@@ -28,6 +28,8 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { username, password, amount } = req.body;
+
+  // getInTransactions()
 
   let account = await accountModel.getByUsername(username);
 
@@ -60,12 +62,12 @@ router.post("/", async (req, res) => {
     if (createdTransac.isCreated) {
       const transactionManager = TransactionManager;
       transactionManager.add(createdTransac.data);
-      res.status(200).send("Transaction Completed!");
+      res.status(200).send({ message: "Transaction Completed!" });
     } else {
-      res.status(401).send("Error while creating transaction!"+createdTransac.data);
+      res.status(401).send({ error: "Error while creating transaction!", message: createdTransac.data });
     }
   } else {
-    res.status(401).send("Password Incorrect!");
+    res.status(401).send({ error: "Password Incorrect!" });
   }
 });
 

@@ -12,7 +12,7 @@ class Singleton {
       while (this.queue.length != 0) {
         const transaction = this.queue.shift();
 
-        const admin = await adminModel.getAll(this.admin);
+        let admin = await adminModel.getOne(this.admin);
         admin.balance = Number(admin.balance) + Number(transaction.amount);
 
         const res = await transactionRecordModel.finalizeTransaction(transaction, admin);

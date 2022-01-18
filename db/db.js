@@ -34,7 +34,7 @@ exports.getAllOrderByField = async (
     const res = await db.any(queryStr);
     return res;
   } catch (e) {
-    console.log("Error db/load", e);
+    console.log("Error transactionRecordModel/getAllOrderByField", e);
   }
 };
 
@@ -162,6 +162,6 @@ exports.getAllTransactionByUsername = async (
     const res = await db.any(queryStr);
     return res;
   } catch (e) {
-    console.log("Error db/load", e);
+    console.log("Error model/getAllTransactionByUsername", e);
   }
 };

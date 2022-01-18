@@ -33,9 +33,6 @@ app.use('/account', require('./controllers/accountController'));
 app.use('/transaction', require('./controllers/transactionRecordController'));
 
 //api
-app.use("/api/transaction", require('./api/paymentApi'))
-
-//api
 app.use('/api/transaction',require('./api/paymentApi'));
 
 app.get("/", (req, res) => {

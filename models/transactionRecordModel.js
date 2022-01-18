@@ -16,8 +16,13 @@ const tableFields = {
 
 
 exports.getAllSortedByTime = async () => {
-    const res = await db_query.getAllOrderByField(tableName, tableFields.created, "DESC");
-    return res;
+    try{
+        const res = await db_query.getAllOrderByField(tableName, tableFields.created_at, "DESC");
+        return res;
+    } catch(err){
+        console.log("Error transactionRecordModel/getAllSortedByTime:", err);
+        throw err;
+    }
 }
 
 // Can get record by id or username
@@ -36,6 +41,7 @@ exports.createTransaction = async (transaction, user) => {
         const res = await db_query.createTransaction(transaction, user);
         return res;
     } catch(err){
+        console.log("Error createTransaction:", err);
         throw err;
     }
 }
@@ -50,6 +56,24 @@ exports.finalizeTransaction = async (transaction, admin) => {
 }
 
 exports.getAllTransactionByUsername = async (username) => {
-    const res = await db_query.getAllTransactionByUsername(tableName, tableFields.created, "DESC", username);
+    const res = await db_query.getAllTransactionByUsername(tableName, tableFields.created_at, "DESC", username);
+    return res;
+}
+
+exports.getNumberTransactionsOfAType = async (type, optionSort = "DESC") => {
+    const table = new pgp.helpers.TableName({ table: tableName, schema: schema });
+    let typeVal = (type == "In") ? 0 : 1; 
+    const queryStr = pgp.as.format(
+        `SELECT COUNT(*) FROM $1 WHERE "type" = ${typeVal}`,
+        table
+    );
+
+    try {
+        const res = await db.one(queryStr);
+        return res.count;
+    } catch (e) {
+        console.log("Error transactionRecordModel/getInTransactions", e);
+    }
+    
     return res;
 }
