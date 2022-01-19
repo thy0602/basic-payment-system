@@ -56,7 +56,8 @@ router.post("/", async (req, res) => {
   if (!account) {
     return res.status(401).send("Invalid username");
   }
-  if (account.balance < amount) {
+
+  if (account.balance - amount < 0) {
     return res.status(422).send("Insufficient Balance!");
   }
 
