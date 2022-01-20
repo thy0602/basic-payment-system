@@ -45,8 +45,9 @@ router.post("/", async (req, res) => {
             is_deleted: false
         }
     
-        const response = await accountModel.create(entity);
-        res.status(200).send(response);
+    const response = await accountModel.create(entity);
+    console.log("Created user: ", response);
+    res.status(200).send(response);
     } catch (e) {
         res.status(400).send({ error: e });
     }

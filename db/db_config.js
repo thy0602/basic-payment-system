@@ -6,7 +6,7 @@ const connection = {
     user: 'postgres',
     host: 'localhost',
     database: 'payment_system',
-    password: '123456',
+    password: 'postgres',
     port: 5432,
     max: 30,
 };
