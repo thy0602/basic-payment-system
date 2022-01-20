@@ -122,3 +122,20 @@ exports.topup = async (transaction, user) => {
         return err;
     }
 }
+
+exports.getNumberAccount = async () => {
+    const table = new pgp.helpers.TableName({ table: tableName, schema: schema });
+    const queryStr = pgp.as.format(
+        `SELECT COUNT(*) FROM $1`,
+        table
+    );
+
+    try {
+        const res = await db.one(queryStr);
+        return res.count;
+    } catch (e) {
+        console.log("Error accountModel/getNumberAccount", e);
+    }
+    
+    return res;
+}

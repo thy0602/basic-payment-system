@@ -60,7 +60,7 @@ exports.getAllTransactionByUsername = async (username) => {
     return res;
 }
 
-exports.getNumberTransactionsOfAType = async (type, optionSort = "DESC") => {
+exports.getNumberTransactionsOfAType = async (type) => {
     const table = new pgp.helpers.TableName({ table: tableName, schema: schema });
     let typeVal = (type == "In") ? 0 : 1; 
     const queryStr = pgp.as.format(

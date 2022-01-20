@@ -73,10 +73,19 @@ router.get('/home', async (req, res) => {
             const transactions = await transacRecordModel.getAllSortedByTime();
             const admin = await adminModel.getOne();
 
+            const n_in = await transacRecordModel.getNumberTransactionsOfAType("In");
+            const n_out = await transacRecordModel.getNumberTransactionsOfAType("Out");
+            const n_accounts = await accountModel.getNumberAccount();
+            console.log("totalInTransactions:", n_in);
+            console.log("totalOutTransactions:", n_out);
+
             return res.render("admin/adminHome", {
                 transactions: transactions,
                 adminBalance: admin.balance,
                 totalTransactions: transactions.length,
+                totalInTransactions: n_in,
+                totalOutTransactions: n_out,
+                totalAccounts: n_accounts,
                 cssP: () => "css",
                 navP: () => "nav",
                 scriptP: () => "scripts_home_admin",
