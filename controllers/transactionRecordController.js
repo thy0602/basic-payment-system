@@ -6,9 +6,9 @@ const TransactionManager = require("../TransactionManager/TransactionManager");
 router.post('/', async (req, res) => {
     if (!req.cookies.user)
         return res.redirect('/');
-    
+    const temp = require('jsonwebtoken').decode(req.cookies.user, true).username;
     const { amount } = req.body;
-    const username = req.cookies.user;
+    const username = temp;
 
     let account = await accountModel.getByUsername(username);
     account = account[0];
