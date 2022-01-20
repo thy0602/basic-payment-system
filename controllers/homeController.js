@@ -67,8 +67,8 @@ router.get('/home', async (req, res) => {
     try {
         if (!req.cookies.user)
             return res.redirect('/login-id');
-
-        if (req.cookies.user == 'admin') {
+        const temp = require('jsonwebtoken').decode(req.cookies.user, true).username;
+        if (temp == 'admin') {
             //Lấy ra danh sách các transaction mà account đã chi ra (nộp vào cho admin)
             const transactions = await transacRecordModel.getAllSortedByTime();
             const admin = await adminModel.getOne();
@@ -96,8 +96,8 @@ router.get('/home', async (req, res) => {
         }
 
         //Lấy ra danh sách các transaction của user hiện tại
-        const transactions = await transacRecordModel.getAllTransactionByUsername(req.cookies.user);
-        const user = await accountModel.getOneByUsername(req.cookies.user);
+        const transactions = await transacRecordModel.getAllTransactionByUsername(temp);
+        const user = await accountModel.getOneByUsername(temp);
 
         res.render("userHome", {
             transactions: transactions,
@@ -118,7 +118,8 @@ router.get("/manage-users", async (req, res) => {
     try {
         if (!req.cookies.user)
             return res.redirect('/login-id');
-        if (req.cookies.user != 'admin')
+        const temp = require('jsonwebtoken').decode(req.cookies.user, true).username;
+        if (temp != 'admin')
             return res.redirect('/home');
 
         // Lấy ra danh sách users (accounts)

@@ -5,6 +5,35 @@ const bcrypt = require('bcrypt');
 const salt = 10;
 const passport = require('passport');
 
+//jwt
+const jwt = require('jsonwebtoken');
+const secretKey = 'ThisIsASecretKey';
+
+const setAuthToken = (res, user) => {
+    const expirationSeconds = 60 * 60 * 24 * 7; // one week
+    const cookieExpiration = Date.now() + expirationSeconds * 1000;
+
+    console.log(user);
+    const payload = {
+        exp: cookieExpiration,
+        username: user.username,
+    };
+
+    const token = jwt.sign(JSON.stringify(payload), secretKey, {
+        algorithm: "HS256",
+    });
+    console.log('token', require('jsonwebtoken').decode(token, true));
+    res.cookie('user', token);
+
+    res.cookie("jwt", token, {
+        expires: new Date(cookieExpiration),
+        httpOnly: true,
+    });
+
+    return res.redirect('/home');
+};
+
+
 router.post('/id', async (req, res) => {
     let id = req.body.id;
     //kiểm tra id có tồn tại trong database không
@@ -57,8 +86,7 @@ router.post('/password', async (req, res, next) => {
                 });
             }
             console.log('login successfully');
-            res.cookie('user', user.username);
-            return res.redirect('/home');
+            return setAuthToken(res, user);
         })
     })(req, res, next);
 });
@@ -74,7 +102,8 @@ router.post('/crpassword', async (req, res) => {
 });
 
 router.post('/rspassword', async (req, res) => {
-    if (req.cookies.user == 'admin') {
+    const temp = require('jsonwebtoken').decode(req.cookies.user, true).username;
+    if (temp == 'admin') {
         const admin = await adminModel.getOne();
         let checkpw = await bcrypt.compare(req.body.current_password, admin.password);
         if (!checkpw) {
@@ -104,7 +133,7 @@ router.post('/rspassword', async (req, res) => {
         return;
     }
 
-    const userdb = await accountModel.getByUsername(req.cookies.user);
+    const userdb = await accountModel.getByUsername(temp);
     let checkpw = await bcrypt.compare(req.body.current_password, userdb[0].password);
     if (!checkpw) {
         return res.render('login_views/login_resetpw', {
@@ -119,7 +148,7 @@ router.post('/rspassword', async (req, res) => {
         password: pwhashed,
         balance: userdb[0].balance
     }
-    const rs = await accountModel.update(req.cookies.user, user);
+    const rs = await accountModel.update(temp, user);
     res.redirect('/home');
     return;
 });
