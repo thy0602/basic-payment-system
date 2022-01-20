@@ -34,6 +34,7 @@ app.use('/transaction', require('./controllers/transactionRecordController'));
 
 //api
 app.use('/api/transaction',require('./api/paymentApi'));
+app.use('/api/account',require('./api/accountApi'));
 
 app.get("/", (req, res) => {
   if (!req.cookies.user)

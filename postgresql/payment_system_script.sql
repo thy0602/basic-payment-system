@@ -30,7 +30,7 @@ CREATE TABLE "account" (
 	"username" varchar(50) PRIMARY KEY UNIQUE,
 	"balance" numeric(19,4) NOT NULL,
 	"password" varchar(255),
-	"phone" varchar(10) NOT NULL UNIQUE,
+	"phone" varchar(10),
 	"is_deleted" bool NOT NULL  -- 1: deleted
 );
 
