@@ -1,6 +1,11 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
 const cookieParser = require("cookie-parser");
+
+//handle https
+const fs = require("fs");
+var https = require('https');
+
 const port = 3000;
 const app = express();
 
@@ -42,6 +47,15 @@ app.get("/", (req, res) => {
   res.redirect('/home');
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on localhost:${port}`);
+var privateKey  = fs.readFileSync(__dirname+'/key/CA/localhost/localhost.decrypted.key');
+var certificate = fs.readFileSync(__dirname+'/key/CA/localhost/localhost.crt');
+
+var options = {
+  key: privateKey,
+  cert: certificate
+};
+
+var server = https.createServer(options, app);
+server.listen(port, function () {
+  console.log('HTTPS Express server is up on port ' + port);
 });
