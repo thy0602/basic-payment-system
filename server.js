@@ -1,6 +1,7 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
 const cookieParser = require("cookie-parser");
+let moneyFormatter = require('./utils/moneyFormatter');
 
 //handle https
 const fs = require("fs");
@@ -13,7 +14,18 @@ const hbs = exphbs.create({
   defaultLayout: "mainLayout",
   extname: "hbs",
   helpers: {
-    sum: (a, b) => a + b
+    sum: (a, b) => a + b,
+    formatMoney: function (money) {
+      return moneyFormatter.moneyFormatter(money);
+    },
+    formatDatetime: function (time) {
+      return time.getDay().toString() + '/' +
+        (time.getMonth() + 1).toString() + '/' +
+        time.getFullYear().toString() + ' '
+        + String(time.getHours()).padStart(2, '0') + ":" + 
+        String(time.getMinutes()).padStart(2, '0') + ':' +
+        String(time.getSeconds()).padStart(2, '0');
+    }
   }
 });
 

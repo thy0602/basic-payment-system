@@ -76,8 +76,6 @@ router.get('/home', async (req, res) => {
             const n_in = await transacRecordModel.getNumberTransactionsOfAType("In");
             const n_out = await transacRecordModel.getNumberTransactionsOfAType("Out");
             const n_accounts = await accountModel.getNumberAccount();
-            console.log("totalInTransactions:", n_in);
-            console.log("totalOutTransactions:", n_out);
 
             return res.render("admin/adminHome", {
                 transactions: transactions,

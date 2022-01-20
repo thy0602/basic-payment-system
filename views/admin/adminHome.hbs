@@ -5,7 +5,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h3 class="font-weight-bold">Welcome back, Trung</h3>
+                  <h3 class="font-weight-bold">Welcome back, Admin</h3>
                   <h6 class="font-weight-normal mb-0">All systems are running smoothly! You have <span
                       class="text-primary">3 unread alerts!</span></h6>
                 </div>
@@ -19,7 +19,7 @@
                   <div class="col-md-5">
                     <div class="card-body" style="margin-top: 5vw;">
                       <h5 class="card-title" style="color: white;">Balance</h5>
-                      <p class="card-text" style="color: white;font-size: 1.5vw;">{{adminBalance}} VND</p>
+                      <p class="card-text" style="color: white;font-size: 1.5vw;">{{formatMoney adminBalance}} VND</p>
                     </div>
                   </div>
                   <div class="col-md-7">
@@ -99,7 +99,7 @@
                           {{else}}
                             <td class="font-weight-bold text-success">+{{this.amount}} VND</td>
                           {{/if}}
-                          <td>{{this.created_at}}</td>
+                          <td>{{formatDatetime this.created_at}}</td>
                           <td class="font-weight-medium">
                             {{#if this.type}}
                               <div class="badge badge-danger">Out</div>
